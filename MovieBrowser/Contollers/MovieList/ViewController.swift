@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import SDWebImage
 class ViewController: UIViewController {
     
     @IBOutlet weak var lblFilterIndicator: UILabel!
@@ -215,6 +215,7 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource,
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.reuseID, for: indexPath) as! MoviesCollectionCell
         let objMovie = arrMovies[indexPath.item]
         cell.lblMovieName.text = objMovie.title
+        cell.imgvwPoster.sd_setImage(with: URL(string: Common.POSTERPATH + (objMovie.poster_path ?? "")), placeholderImage: UIImage(named: "default"), options: SDWebImageOptions.avoidDecodeImage, completed: nil)
         return cell
     }
     
