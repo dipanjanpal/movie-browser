@@ -5,6 +5,7 @@ target 'MovieBrowser' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 pod 'SDWebImage'
+pod 'FloatRatingView', '~> 4'
   # Pods for MovieBrowser
 
 end
