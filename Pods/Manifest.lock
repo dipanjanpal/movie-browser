@@ -1,18 +1,22 @@
 PODS:
+  - FloatRatingView (4.0)
   - SDWebImage (5.6.1):
     - SDWebImage/Core (= 5.6.1)
   - SDWebImage/Core (5.6.1)
 
 DEPENDENCIES:
+  - FloatRatingView (~> 4)
   - SDWebImage
 
 SPEC REPOS:
   trunk:
+    - FloatRatingView
     - SDWebImage
 
 SPEC CHECKSUMS:
+  FloatRatingView: bb6bdddfbeec51b1d387b4bd50abc27b4dfccd48
   SDWebImage: 7edb9c3ea661e77a66661f7f044de8c1b55d1120
 
-PODFILE CHECKSUM: 8e91165aecc95f93fccd71300e4315b963ea8cc8
+PODFILE CHECKSUM: b41df60732bb6332c747b5386b67a512c6063462
 
 COCOAPODS: 1.8.4
