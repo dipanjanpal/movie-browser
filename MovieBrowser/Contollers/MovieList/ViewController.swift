@@ -9,7 +9,10 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    @IBOutlet weak var lblFilterIndicator: UILabel!
+    @IBOutlet weak var viewLoader : UIView!
+    @IBOutlet weak var activityIndicator : UIActivityIndicatorView!
     @IBOutlet weak var viewShowAll: UIView!
     @IBOutlet weak var lblSort: UILabel!
     @IBOutlet weak var imgvwSort: UIImageView!
@@ -22,32 +25,38 @@ class ViewController: UIViewController {
     var pageNo : Int = 1
     var objMovies : MoviesModel?
     var arrMovies = [Results]()
+    var isPaging = false
+    var selectedEndPoint = Constants.epWithOutFilter
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         imgvwSort.image = UIImage(named: "sort")
         
-        addShadow(viewForshadow: viewSort)
-        roundView(viewForRound: viewSort)
+        Common.roundView(viewForRound: lblFilterIndicator)
         
-        addShadow(viewForshadow: viewRating)
-        roundView(viewForRound: viewRating)
+        Common.addShadow(viewForshadow: viewSort)
+        Common.roundView(viewForRound: viewSort)
         
-        addShadow(viewForshadow: viewPopularity)
-        roundView(viewForRound: viewPopularity)
+        Common.addShadow(viewForshadow: viewRating)
+        Common.roundView(viewForRound: viewRating)
         
-        addShadow(viewForshadow: viewShowAll)
-        roundView(viewForRound: viewShowAll)
-
+        Common.addShadow(viewForshadow: viewPopularity)
+        Common.roundView(viewForRound: viewPopularity)
+        
+        Common.addShadow(viewForshadow: viewShowAll)
+        Common.roundView(viewForRound: viewShowAll)
+        
         setupInitialPosition()
         
         let nib1 = UINib(nibName: Constants.reuseID, bundle: Bundle.main)
         collectionMovies.register(nib1, forCellWithReuseIdentifier: Constants.reuseID)
         
-        getMovies(endPoint : Constants.epWithOutFilter)
+        
+        getMovies()
+        
     }
-
+    
     @IBAction func onTapViewShowAll(_ sender: Any) {
         UIView.animate(withDuration: 0.3, animations: {
             self.viewRating.transform = CGAffineTransform(translationX: 0, y: self.viewSort.center.y)
@@ -61,8 +70,13 @@ class ViewController: UIViewController {
                     self.imgvwSort.image = UIImage(named: "sort")
                     self.lblSort.text = "Sort"
                     print("view show all was tapped")
-                    
                     // normal api call
+                    self.selectedEndPoint = Constants.epWithOutFilter
+                    self.isPaging = false
+                    self.totalPages = nil
+                    self.pageNo = 1
+                    self.arrMovies.removeAll()
+                    self.getMovies()
                 })
             }
         }
@@ -81,8 +95,13 @@ class ViewController: UIViewController {
                     self.imgvwSort.image = UIImage(named: "sort")
                     self.lblSort.text = "Sort"
                     print("view popularity was tapped")
-                    
                     // sort by popularity api call
+                    self.selectedEndPoint = Constants.epWithPopularity
+                    self.isPaging = false
+                    self.totalPages = nil
+                    self.pageNo = 1
+                    self.arrMovies.removeAll()
+                    self.getMovies()
                 })
             }
         }
@@ -101,6 +120,12 @@ class ViewController: UIViewController {
                     self.lblSort.text = "Sort"
                     print("view rating was tapped")
                     // sort by rating api call
+                    self.selectedEndPoint = Constants.epWithRating
+                    self.isPaging = false
+                    self.totalPages = nil
+                    self.pageNo = 1
+                    self.arrMovies.removeAll()
+                    self.getMovies()
                 })
             }
         }
@@ -144,16 +169,7 @@ class ViewController: UIViewController {
         
     }
     
-    func roundView(viewForRound : UIView){
-        viewForRound.layer.cornerRadius = viewForRound.frame.width / 2
-    }
     
-    func addShadow(viewForshadow : UIView){
-        viewForshadow.layer.shadowColor = UIColor.gray.cgColor
-        viewForshadow.layer.shadowOpacity = 1
-        viewForshadow.layer.shadowOffset = CGSize.zero
-        viewForshadow.layer.shadowRadius = 6
-    }
     
     func setupInitialPosition(){
         viewRating.transform = CGAffineTransform(translationX: 0, y: viewSort.center.y)
@@ -166,8 +182,10 @@ class ViewController: UIViewController {
     
     //MARK: api call
     
-    func getMovies(endPoint : String){
-        BaseNetwork.parse(endpoint: endPoint + "\(pageNo)", dataToPost: [:], header: [:], instanceTypeToBeDecoded: objMovies) { (modelMovies) in
+    func getMovies(){
+        (selectedEndPoint == Constants.epWithOutFilter) ? (lblFilterIndicator.isHidden = true) : (lblFilterIndicator.isHidden = false)
+        isPaging ? activityIndicator.startAnimating() : (viewLoader.isHidden = false)
+        BaseNetwork.parse(endpoint: selectedEndPoint + "\(pageNo)", dataToPost: [:], header: [:], instanceTypeToBeDecoded: objMovies) { (modelMovies) in
             DispatchQueue.main.async {
                 self.totalPages = modelMovies?.total_pages ?? -1
                 if self.arrMovies.isEmpty{
@@ -179,6 +197,9 @@ class ViewController: UIViewController {
                     }
                 }
                 self.collectionMovies.reloadData()
+                self.viewLoader.isHidden = true
+                self.isPaging = false
+                self.activityIndicator.stopAnimating()
             }
         }
     }
@@ -215,6 +236,30 @@ extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource,
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader{
+            return UICollectionReusableView()
+        }
+        else{
+            let footer = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "footer", for: indexPath)
+            print(indexPath.item, indexPath.section)
+            return footer
+        }
+    }
+}
+
+extension ViewController : UIScrollViewDelegate{
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (((scrollView.contentOffset.y + scrollView.frame.size.height) > scrollView.contentSize.height ) && !isPaging){
+            if pageNo <= (totalPages ?? -1){
+                activityIndicator.startAnimating()
+                pageNo += 1
+                isPaging = true
+                getMovies()
+            }
+        }
     }
 }
 

@@ -22,6 +22,9 @@ class MovieDetailViewController: UIViewController {
     var objMovieDetails : MovieDetailsModel?
     override func viewDidLoad() {
         super.viewDidLoad()
+        lblRating.adjustsFontSizeToFitWidth = true
+        lblMoviename.adjustsFontSizeToFitWidth = true
+        Common.addShadow(viewForshadow: imgvwPoster)
         getMovieDetails()
     }
 
@@ -33,8 +36,8 @@ class MovieDetailViewController: UIViewController {
         viewLoading.isHidden = false
         BaseNetwork.parse(endpoint: "movie/\(movieID)?api_key=dcb920405a6a8223246657973afaa111&language=en-US", dataToPost: [:], header: [:], instanceTypeToBeDecoded: objMovieDetails) { (modelMovie) in
             DispatchQueue.main.async {
-                self.imgvwPoster.sd_setImage(with: URL(string: CommonConstants.POSTERPATH + (modelMovie?.poster_path ?? "")), placeholderImage: UIImage(named: "default"), options: SDWebImageOptions.avoidDecodeImage, completed: nil)
-                self.lblRating.text = "\(modelMovie?.vote_average ?? 0.0) / 10"
+                self.imgvwPoster.sd_setImage(with: URL(string: Common.POSTERPATH + (modelMovie?.poster_path ?? "")), placeholderImage: UIImage(named: "default"), options: SDWebImageOptions.avoidDecodeImage, completed: nil)
+                self.lblRating.text = "\(modelMovie?.vote_average ?? 0.0) / 10.0"
                 self.viewRating.rating = modelMovie?.vote_average ?? 0.0
                 self.lblMoviename.text = modelMovie?.title
                 self.lblRelesedate.text = "Relese date : " + (modelMovie?.release_date ?? "")
