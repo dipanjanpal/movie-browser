@@ -25,7 +25,7 @@
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie Name" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Md3-hb-bLe">
                                 <rect key="frame" x="0.0" y="147" width="143" height="55"/>
-                                <color key="backgroundColor" red="0.56470588235294117" green="0.80784313725490198" blue="0.63137254901960782" alpha="0.24071596746575341" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.56470588235294117" green="0.80784313725490198" blue="0.63137254901960782" alpha="0.52108304794520544" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="DXI-pV-BQF"/>
                                 </constraints>
