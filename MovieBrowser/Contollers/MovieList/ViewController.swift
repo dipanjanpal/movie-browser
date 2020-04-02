@@ -18,8 +18,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var viewPopularity: UIView!
     @IBOutlet weak var collectionMovies: UICollectionView!
     
-    
+    var totalPages : Int?
     var pageNo : Int = 1
+    var objMovies : MoviesModel?
+    var arrMovies = [Results]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +44,8 @@ class ViewController: UIViewController {
         
         let nib1 = UINib(nibName: Constants.reuseID, bundle: Bundle.main)
         collectionMovies.register(nib1, forCellWithReuseIdentifier: Constants.reuseID)
+        
+        getMovies(endPoint : Constants.epWithOutFilter)
     }
 
     @IBAction func onTapViewShowAll(_ sender: Any) {
@@ -160,25 +164,43 @@ class ViewController: UIViewController {
         viewShowAll.isHidden = false
     }
     
-    func getMovies(){
-        
+    //MARK: api call
+    
+    func getMovies(endPoint : String){
+        BaseNetwork.parse(endpoint: endPoint + "\(pageNo)", dataToPost: [:], header: [:], instanceTypeToBeDecoded: objMovies) { (modelMovies) in
+            DispatchQueue.main.async {
+                self.totalPages = modelMovies?.total_pages ?? -1
+                if self.arrMovies.isEmpty{
+                    self.arrMovies = modelMovies?.results ?? []
+                }
+                else{
+                    for movie in modelMovies?.results ?? []{
+                        self.arrMovies.append(movie)
+                    }
+                }
+                self.collectionMovies.reloadData()
+            }
+        }
     }
     
 }
 
 extension ViewController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return arrMovies.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.reuseID, for: indexPath) as! MoviesCollectionCell
+        let objMovie = arrMovies[indexPath.item]
+        cell.lblMovieName.text = objMovie.title
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
         let movieDetailsVC = storyBoard.instantiateViewController(withIdentifier: Constants.movieDetailsVCID) as! MovieDetailViewController
+        movieDetailsVC.movieID = "\(arrMovies[indexPath.item].id ?? -1)"
         navigationController?.pushViewController(movieDetailsVC, animated: true)
         
     }
@@ -201,7 +223,7 @@ private enum Constants{
     static let reuseID = "MoviesCollectionCell"
     static let collectionCellheight : CGFloat = 202.0
     static let movieDetailsVCID = "MovieDetailViewController"
-    static let epWithOutFilter = "include_adult=false&include_video=false&page="
-    static let epWithPopularity = "sort_by=popularity.desc&include_adult=false&include_video=false&page="
-    static let epWithRating = "sort_by=vote_average.desc&include_adult=false&include_video=false&page="
+    static let epWithOutFilter = "discover/movie?api_key=dcb920405a6a8223246657973afaa111&language=en-US&include_adult=false&include_video=false&page="
+    static let epWithPopularity = "discover/movie?api_key=dcb920405a6a8223246657973afaa111&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page="
+    static let epWithRating = "discover/movie?api_key=dcb920405a6a8223246657973afaa111&language=en-US&sort_by=vote_average.desc&include_adult=false&include_video=false&page="
 }
