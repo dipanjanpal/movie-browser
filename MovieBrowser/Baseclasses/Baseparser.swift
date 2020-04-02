@@ -7,7 +7,7 @@ class Baseparser{
     class func postURLRequest( endpoint : String, params : [String: Any], header : [String : String], completion: @escaping (Bool, Data?, Error?) -> Void)
     {
         //let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let url = CommonConstants.BASEURL + endpoint
+        let url = Common.BASEURL + endpoint
         print("\n \n Api hitting ===>>>",url)
         let myURL = URL(string: url)
         let mysession = URLSession.shared
