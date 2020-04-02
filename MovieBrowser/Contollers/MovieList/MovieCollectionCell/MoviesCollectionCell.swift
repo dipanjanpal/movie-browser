@@ -9,10 +9,13 @@
 import UIKit
 
 class MoviesCollectionCell: UICollectionViewCell {
-
+    @IBOutlet weak var viewParent: UIView!
+    
+    @IBOutlet weak var lblMovieName: UILabel!
+    @IBOutlet weak var imgvwPoster: UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        viewParent.layer.cornerRadius = 8
     }
 
 }

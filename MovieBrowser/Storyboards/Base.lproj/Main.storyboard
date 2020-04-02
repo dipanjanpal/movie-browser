@@ -20,10 +20,10 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Om-mj-rrv">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
-                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cc4-0T-I7J">
-                                        <rect key="frame" x="20" y="20" width="374" height="856"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                        <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vAr-1K-eQM">
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cc4-0T-I7J">
+                                        <rect key="frame" x="20" y="52" width="374" height="802"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="vAr-1K-eQM">
                                             <size key="itemSize" width="50" height="50"/>
                                             <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                             <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -39,6 +39,10 @@
                                                 </collectionViewCellContentView>
                                             </collectionViewCell>
                                         </cells>
+                                        <connections>
+                                            <outlet property="dataSource" destination="BYZ-38-t0r" id="iDk-yq-X7b"/>
+                                            <outlet property="delegate" destination="BYZ-38-t0r" id="Goq-9Z-Wna"/>
+                                        </connections>
                                     </collectionView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gz4-ip-7Pz">
                                         <rect key="frame" x="314" y="756" width="80" height="80"/>
@@ -62,6 +66,7 @@
                                             </label>
                                         </subviews>
                                         <color key="backgroundColor" red="0.0039215686274509803" green="0.70588235294117641" blue="0.89411764705882346" alpha="1" colorSpace="calibratedRGB"/>
+                                        <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="80" id="WaI-Oq-1b7"/>
                                             <constraint firstItem="Rra-f2-9Kl" firstAttribute="top" secondItem="gz4-ip-7Pz" secondAttribute="top" constant="8" id="Zia-h3-WNT"/>
@@ -70,12 +75,16 @@
                                             <constraint firstAttribute="width" constant="80" id="orb-eI-P2h"/>
                                             <constraint firstItem="Rra-f2-9Kl" firstAttribute="centerX" secondItem="gz4-ip-7Pz" secondAttribute="centerX" id="pPF-Hh-LCi"/>
                                         </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="jfN-yJ-2MQ" appends="YES" id="cR8-vt-Gcr"/>
+                                        </connections>
                                     </view>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bwI-Er-ah2">
                                         <rect key="frame" x="314" y="646" width="80" height="80"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="review" translatesAutoresizingMaskIntoConstraints="NO" id="n1k-RQ-JqF">
                                                 <rect key="frame" x="30" y="8" width="20" height="42"/>
+                                                <gestureRecognizers/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="20" id="YTG-hh-oDd"/>
                                                     <constraint firstAttribute="height" constant="42" id="wYY-IR-5Eh"/>
@@ -101,6 +110,9 @@
                                             <constraint firstItem="n1k-RQ-JqF" firstAttribute="top" secondItem="bwI-Er-ah2" secondAttribute="top" constant="8" id="hKv-BL-6AL"/>
                                             <constraint firstAttribute="height" constant="80" id="svY-iU-uRf"/>
                                         </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="p1s-g1-T6K" appends="YES" id="ciN-bO-6oW"/>
+                                        </connections>
                                     </view>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gLx-J4-giE">
                                         <rect key="frame" x="314" y="536" width="80" height="80"/>
@@ -124,6 +136,7 @@
                                             </label>
                                         </subviews>
                                         <color key="backgroundColor" red="0.0039215686269999999" green="0.70588235290000001" blue="0.89411764709999997" alpha="1" colorSpace="calibratedRGB"/>
+                                        <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstItem="SPl-Ee-55F" firstAttribute="centerX" secondItem="gLx-J4-giE" secondAttribute="centerX" id="9Ux-Im-rnw"/>
                                             <constraint firstAttribute="height" constant="80" id="Coc-G0-txh"/>
@@ -132,13 +145,16 @@
                                             <constraint firstItem="iT0-aq-GZ3" firstAttribute="top" secondItem="gLx-J4-giE" secondAttribute="top" constant="8" id="vhk-AZ-xHh"/>
                                             <constraint firstAttribute="width" constant="80" id="zeh-X6-eBe"/>
                                         </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="UdV-NZ-5wj" appends="YES" id="2eM-wK-l1q"/>
+                                        </connections>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="gLx-J4-giE" secondAttribute="trailing" constant="20" id="7wJ-gY-8Bc"/>
-                                    <constraint firstAttribute="bottom" secondItem="cc4-0T-I7J" secondAttribute="bottom" constant="20" symbolic="YES" id="Dkb-wG-gqI"/>
-                                    <constraint firstItem="cc4-0T-I7J" firstAttribute="top" secondItem="8Om-mj-rrv" secondAttribute="top" constant="20" symbolic="YES" id="IiD-hc-nD1"/>
+                                    <constraint firstAttribute="bottom" secondItem="cc4-0T-I7J" secondAttribute="bottom" constant="42" id="Dkb-wG-gqI"/>
+                                    <constraint firstItem="cc4-0T-I7J" firstAttribute="top" secondItem="8Om-mj-rrv" secondAttribute="top" constant="52" id="IiD-hc-nD1"/>
                                     <constraint firstAttribute="trailing" secondItem="cc4-0T-I7J" secondAttribute="trailing" constant="20" id="Viw-BT-zeY"/>
                                     <constraint firstItem="cc4-0T-I7J" firstAttribute="leading" secondItem="8Om-mj-rrv" secondAttribute="leading" constant="20" id="eZz-tr-HvV"/>
                                     <constraint firstItem="bwI-Er-ah2" firstAttribute="top" secondItem="gLx-J4-giE" secondAttribute="bottom" constant="30" id="lok-De-pSa"/>
@@ -166,6 +182,21 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="jfN-yJ-2MQ">
+                    <connections>
+                        <action selector="onTapViewSort:" destination="BYZ-38-t0r" id="L22-RH-9EL"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="p1s-g1-T6K">
+                    <connections>
+                        <action selector="onTapViewRating:" destination="BYZ-38-t0r" id="iNy-kl-ncR"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="UdV-NZ-5wj">
+                    <connections>
+                        <action selector="onTapViewPopularity:" destination="BYZ-38-t0r" id="l9K-dT-evM"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="129.91071428571428"/>
         </scene>
