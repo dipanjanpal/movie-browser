@@ -26,11 +26,11 @@ struct MoviesModel : Codable {
 }
 
 struct Results : Codable {
-    let popularity : Int?
+    let popularity : Double?
     let id : Int?
     let video : Bool?
     let vote_count : Int?
-    let vote_average : Int?
+    let vote_average : Float?
     let title : String?
     let release_date : String?
     let original_language : String?
@@ -61,11 +61,11 @@ struct Results : Codable {
 
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        popularity = try values.decodeIfPresent(Int.self, forKey: .popularity)
+        popularity = try values.decodeIfPresent(Double.self, forKey: .popularity)
         id = try values.decodeIfPresent(Int.self, forKey: .id)
         video = try values.decodeIfPresent(Bool.self, forKey: .video)
         vote_count = try values.decodeIfPresent(Int.self, forKey: .vote_count)
-        vote_average = try values.decodeIfPresent(Int.self, forKey: .vote_average)
+        vote_average = try values.decodeIfPresent(Float.self, forKey: .vote_average)
         title = try values.decodeIfPresent(String.self, forKey: .title)
         release_date = try values.decodeIfPresent(String.self, forKey: .release_date)
         original_language = try values.decodeIfPresent(String.self, forKey: .original_language)
